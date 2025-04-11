@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Search, Menu } from "lucide-react";
-import { useSidebar } from "../context/SidebarContext";
+import { useSidebar } from "../../context/SidebarContext";
 
 const SearchBar = () => {
 	const [query, setQuery] = useState("");

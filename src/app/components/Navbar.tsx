@@ -1,17 +1,19 @@
-import BuildingAvailability from "./BuildingAvailability";
-import Crowdness from "./Crowdness";
-import SearchBar from "./SearchBar";
+import Hours, { HourProps } from "./navbar/Hours";
+import Crowdness from "./navbar/Crowdness";
+import SearchBar from "./navbar/SearchBar";
 import SignIn from "./SignIn";
 
 interface NavbarProps {
   onSignIn: () => void;
+  onToggle: (visible: boolean) => void;
+  onDataChange: (data: HourProps[]) => void;
 }
 
-export default function Navbar({ onSignIn }: NavbarProps) {
+export default function Navbar({ onSignIn, onToggle, onDataChange }: NavbarProps) {
   return (
     <nav>
         <SearchBar />
-        <BuildingAvailability />
+        <Hours onToggle={onToggle} onDataChange={onDataChange} />
         <Crowdness />
         <SignIn onClick={onSignIn} />
     </nav>
