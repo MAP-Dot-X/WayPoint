@@ -1,15 +1,29 @@
 "use client";
 import React, { useState } from "react";
 import { Search, Menu } from "lucide-react";
-import { useSidebar } from "../../context/SidebarContext";
+import { useSidebar } from "../../../context/SidebarContext";
+import { queryEmbeddingAction } from "./SearchActions";
 
 const SearchBar = () => {
 	const [query, setQuery] = useState("");
 	const [isActive, setIsActive] = useState(false);
 	const { toggleSidebar } = useSidebar();
+	const [queryDocuments, setQueryDocuments] = useState<any[]>([]);
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+	};
+
+	const handleQueryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setQuery(e.target.value);
+		queryEmbeddingAction(e.target.value)
+			.then((documents) => {
+				setQueryDocuments(documents);
+				console.log("Documents:", documents);
+			})
+			.catch((error) => {
+				console.error("Error:", error);
+			});
 	};
 
 	return (
@@ -29,7 +43,7 @@ const SearchBar = () => {
 			type="text"
 			placeholder="Search location..."
 			value={query}
-			onChange={(e) => setQuery(e.target.value)}
+			onChange={handleQueryChange}
 			onFocus={() => setIsActive(true)}
 			onBlur={() => setIsActive(false)}
 			className="flex-1 bg-transparent outline-none text-gray-800 placeholder-gray-500"
@@ -40,6 +54,17 @@ const SearchBar = () => {
 			>
 			<Search size={20} />
 			</button>
+			{
+			queryDocuments.length > 0 && (
+				<ul className="absolute top-12 left-0 w-full bg-white border border-gray-300 rounded-lg shadow-lg z-50">
+				{queryDocuments.map((doc) => (
+					<li key={doc.id} className="p-2 hover:bg-gray-100 text-black cursor-pointer">
+					{doc.name}
+					</li>
+				))}
+				</ul>
+			)
+			}
 		</form>
 		</div>
 	);

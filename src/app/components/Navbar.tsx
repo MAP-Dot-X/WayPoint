@@ -1,6 +1,6 @@
 import Hours, { HourProps } from "./navbar/Hours";
 import Crowdness from "./navbar/Crowdness";
-import SearchBar from "./navbar/SearchBar";
+import SearchBar from "./navbar/searchbar/SearchBar";
 import SignIn from "./SignIn";
 
 interface NavbarProps {
