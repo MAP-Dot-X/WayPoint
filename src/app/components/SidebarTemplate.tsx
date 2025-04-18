@@ -18,8 +18,7 @@ export default function SidebarTemplate({
   children,
 }: SidebarTemplateProps) {
   return (
-    <div className="flex flex-col h-full bg-white border-r border-gray-200 shadow-xl rounded-r-lg">
-      {/* Header */}
+    <div className="flex flex-col h-full w-full bg-gradient-to-br from-gray-50 to-white border-r border-gray-200 shadow-xl rounded-r-2xl overflow-hidden">
       <div className="px-4 py-3 border-b border-gray-200 flex items-center justify-between">
         {activeItem ? (
           <>
@@ -54,8 +53,7 @@ export default function SidebarTemplate({
           </>
         )}
       </div>
-      {/* Content area */}
-      <div className="flex-1 p-4 overflow-y-auto">{children}</div>
+      <div className="flex-1 overflow-y-auto mt-2 text-black">{children}</div>
     </div>
   );
 }
