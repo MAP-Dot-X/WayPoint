@@ -7,7 +7,7 @@ import { queryEmbeddingAction } from "./SearchActions";
 const SearchBar = () => {
 	const [query, setQuery] = useState("");
 	const [isActive, setIsActive] = useState(false);
-	const { toggleSidebar } = useSidebar();
+	const { openSidebar } = useSidebar();
 	const [queryDocuments, setQueryDocuments] = useState<any[]>([]);
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -37,7 +37,9 @@ const SearchBar = () => {
 			<Menu
 			size={20}
 			className="mr-3 text-gray-600 cursor-pointer hover:text-blue-600"
-			onClick={toggleSidebar}
+			onClick={() => {
+				openSidebar("");
+			  }}
 			/>
 			<input
 			type="text"

@@ -4,19 +4,19 @@ import { Building, Bus, Toilet, Utensils } from "lucide-react";
 import { useSidebar } from "../../context/SidebarContext";
 
 export default function ExploreSidebar() {
-  const { setActiveSidebar } = useSidebar();
+  const { openSidebar } = useSidebar();
 
   return (
   	<ul>
 		<li
-			onClick={() => setActiveSidebar("Buildings")}
+			onClick={() => openSidebar("Buildings")}
 			className="flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-blue-100 hover:text-blue-800 transition"
 		>
 			<Building size={20} />
 			Buildings
 		</li>
 		<li 
-			onClick={() => setActiveSidebar("Transportations")}
+			onClick={() => openSidebar("Transportations")}
 			className="flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-blue-100 transition">
 			<Bus size={20} />
 			Transportations
@@ -26,7 +26,7 @@ export default function ExploreSidebar() {
 			Restrooms
 		</li>
 		<li 
-			onClick={() => setActiveSidebar("Dining")}
+			onClick={() => openSidebar("Dining")}
 			className="flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-blue-100 transition">
 			<Utensils size={20} />
 			Dining
