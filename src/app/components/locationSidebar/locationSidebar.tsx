@@ -9,6 +9,10 @@ export default function LocationSidebar() {
         name: string;
         latitude: number;
         longitude: number;
+        image_link: string;
+        opening: string | null;
+        closing: string | null;
+        day_of_week: string | null;
     } | null>(null);
     const [loadingLocation, setLoadingLocation] = useState(false);
 
@@ -33,9 +37,13 @@ export default function LocationSidebar() {
                     <button onClick={() => setIsOpen(false)} className="text-gray-600 hover:text-gray-800">
                         <ChevronsRight className="w-5 h-5 cursor-pointer" />
                     </button>
+                    <img src={locationData.image_link} alt={locationData.name} className="w-full object-cover mb-2" />
                     <h2 className="text-lg font-bold mb-2">{locationData.name}</h2>
                     <p className="mb-2">Latitude: {locationData.latitude}</p>
                     <p className="mb-2">Longitude: {locationData.longitude}</p>
+                    <p className="mb-2">Opening: {locationData.opening}</p>
+                    <p className="mb-2">Closing: {locationData.closing}</p>
+                    <p className="mb-2">Day of Week: {locationData.day_of_week}</p>
                 </div>
             )}
             {loadingLocation && (
