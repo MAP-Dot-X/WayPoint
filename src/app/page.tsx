@@ -8,6 +8,7 @@ import Sidebar from "./components/Sidebar";
 import SubSidebar from "./components/SubSidebar";
 import { HourProps } from "./components/navbar/Hours";
 import { supabase } from "./lib/supabase";
+import LocationSidebar from "./components/locationSidebar/locationSidebar";
 
 const MapContainer = dynamic(() => import("react-leaflet").then(mod => mod.MapContainer), { ssr: false });
 const TileLayer = dynamic(() => import("react-leaflet").then(mod => mod.TileLayer), { ssr: false });
@@ -119,6 +120,7 @@ export default function Home() {
 				onClose={handleCloseSubSidebar}
 				building={selectedBuilding}
 			/>
+			<LocationSidebar />
 		</div>
 	);
 }

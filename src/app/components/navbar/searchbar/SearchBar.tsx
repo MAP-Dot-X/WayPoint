@@ -1,8 +1,9 @@
 "use client";
 import React, { useState, useEffect, useCallback } from "react";
-import { Search, Menu, Loader2, X } from "lucide-react";
+import { Search, Menu, Loader2, X, MapPin } from "lucide-react";
 import { useSidebar } from "../../../context/SidebarContext";
 import { queryEmbeddingAction } from "./SearchActions";
+import { useLocationSidebarStore } from "@/app/stores/LocationSidebarStore";
 
 const SearchBar = () => {
 	const [query, setQuery] = useState("");
@@ -16,7 +17,7 @@ const SearchBar = () => {
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			setDebouncedQuery(query);
-		}, 500); // 1 second delay
+		}, 300); // .5s second delay
 
 		return () => clearTimeout(timer);
 	}, [query]);
@@ -106,17 +107,7 @@ const SearchBar = () => {
 				<div className="absolute top-12 left-0 w-full bg-white border border-gray-300 rounded-lg shadow-lg z-50 max-h-[300px] overflow-y-auto">
 					<ul className="py-1">
 						{queryDocuments.map((doc) => (
-							<li 
-								key={doc.id} 
-								className="px-4 py-2 hover:bg-gray-100 text-gray-800 cursor-pointer flex items-center"
-							>
-								<div className="flex-1">
-									<div className="font-medium">{doc.name}</div>
-									{doc.description && (
-										<div className="text-sm text-gray-500 truncate">{doc.description}</div>
-									)}
-								</div>
-							</li>
+							<QueryItem key={doc.id} doc={doc} />
 						))}
 					</ul>
 				</div>
@@ -124,5 +115,24 @@ const SearchBar = () => {
 		</div>
 	);
 };
+
+function QueryItem({ doc }: { doc: any }) {
+	const {setSelectedLocation, setIsOpen} = useLocationSidebarStore();
+	return (
+		<li 
+			onClick={() => {
+				setSelectedLocation(doc.id);
+				setIsOpen(true);
+			}}
+			key={doc.id}
+			className="px-4 py-2 hover:bg-gray-100 text-gray-800 cursor-pointer flex items-center"
+		>
+			<div className="flex-1 flex items-center gap-2">
+				<MapPin />
+				<div className="font-medium">{doc.name}</div>
+			</div>
+		</li>
+	)
+}
 
 export default SearchBar;

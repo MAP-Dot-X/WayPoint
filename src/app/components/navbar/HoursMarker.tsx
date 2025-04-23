@@ -4,6 +4,7 @@ import { Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import { HourProps } from "./Hours";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
+import { useLocationSidebarStore } from "@/app/stores/LocationSidebarStore";
 
 const greenIcon = L.icon({
 	iconUrl:
@@ -87,11 +88,13 @@ interface HoursMarkerProps {
 }
 
 const HoursMarker = ({ data }: HoursMarkerProps) => {
+	const {setIsOpen, setSelectedLocation} = useLocationSidebarStore();
+
 	const currentDay = new Date().toLocaleString("en-US", { weekday: "long" });
 	
 	const filteredDay = data.filter((location) => {
-		const days = location.day_of_week.split(",").map((day) => day.trim());
-		return days.includes(currentDay);
+		const days = location.day_of_week?.split(",").map((day) => day.trim());
+		return days?.includes(currentDay);
 	});
 	
 	if (!filteredDay || filteredDay.length === 0) return null;
