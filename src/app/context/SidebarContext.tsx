@@ -1,11 +1,13 @@
 "use client";
+
 import { createContext, useContext, useState, ReactNode } from "react";
 
 interface SidebarContextProps {
 	isOpen: boolean;
 	activeSidebar: string | null;
 	previousSidebar: string | null;
-	toggleSidebar: () => void;
+	openSidebar: (sidebar: string) => void;
+	closeSidebar: () => void;
 	setActiveSidebar: (sidebar: string | null) => void;
 	goBack: () => void;
 }
@@ -17,17 +19,19 @@ export const SidebarProvider = ({ children }: { children: ReactNode }) => {
 	const [activeSidebar, setActiveSidebarState] = useState<string | null>(null);
 	const [previousSidebar, setPreviousSidebar] = useState<string | null>(null);
 
-	const toggleSidebar = () => {
-		setIsOpen((prev) => {
-			const closing = prev;
-			if (closing) {
-				setActiveSidebar(null);
-				setPreviousSidebar(null);
-			}
-			return !prev;
-		});
+	const openSidebar = (sidebar: string) => {
+		if (sidebar !== activeSidebar) {
+			setPreviousSidebar(activeSidebar);
+			setActiveSidebarState(sidebar);
+		}
+		setIsOpen(true);
 	};
-	
+
+	const closeSidebar = () => {
+		setIsOpen(false);
+		setActiveSidebarState(null);
+		setPreviousSidebar(null);
+	};
 
 	const setActiveSidebar = (sidebar: string | null) => {
 		if (sidebar !== activeSidebar) {
@@ -40,14 +44,15 @@ export const SidebarProvider = ({ children }: { children: ReactNode }) => {
 		setActiveSidebarState(previousSidebar);
 		setPreviousSidebar(null);
 	};
-
+	
 	return (
 		<SidebarContext.Provider
 			value={{
 				isOpen,
 				activeSidebar,
 				previousSidebar,
-				toggleSidebar,
+				openSidebar,
+				closeSidebar,
 				setActiveSidebar,
 				goBack,
 			}}
