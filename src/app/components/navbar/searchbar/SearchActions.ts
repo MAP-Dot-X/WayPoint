@@ -1,46 +1,45 @@
 'use server'
 
-const { pipeline, env } = await import('@xenova/transformers');
+import { JinaEmbeddings } from "@langchain/community/embeddings/jina";
 import {supabase} from '@/app/lib/supabase';
 
 // Configuration
-env.allowLocalModels = true; // Allow caching models locally
-env.backends.onnx.wasm.numThreads = 1; // Num of threads used on machine
-const EMBEDDING_MODEL = 'Xenova/all-MiniLM-L6-v2';
+const TABLE_NAME = 'availability_v3_vectors';
 
-// Create a reusable pipeline
-// Note: First run will download the model (cache it). Subsequent runs are faster.
-console.log('Loading embedding model...');
-const extractor = await pipeline('feature-extraction', EMBEDDING_MODEL, {
-   quantized: true
+// Initialize Jina Embeddings model
+const embeddings = new JinaEmbeddings({
+  apiKey: process.env.NEXT_PUBLIC_JINA_API_TOKEN,
+  model: "jina-clip-v2", // Using the same model as in jinaEmbeddingUtil.js
 });
-console.log('Model loaded.');
+
+console.log('Jina embeddings model initialized.');
 
 export async function queryEmbeddingAction(query: string): Promise<any[]> {
-    // Generate embedding
-    const output = await extractor(query, { pooling: 'mean', normalize: true });
-    // Convert Float32Array to a standard array
-    const embedding = Array.from(output.data);
-
-    console.log("Embedding", embedding);
-
-    const { data: documents } = await supabase.rpc('match_items', {
-        query_embedding: embedding, // Pass the embedding you want to compare
-        match_threshold: 0.30, // Choose an appropriate threshold for your data
-        match_count: 10, // Choose the number of matches
-        })
-
-    console.log(`Successfully got embeddings for: ${query}`);
-
-    return new Promise((resolve, reject) => {
-        if (documents) {
-            console.log("Documents:", documents);
-            resolve(documents);
+    if (!query || query.trim() === '') {
+        return [];
+    }
+    
+    try {
+        // Generate embedding using Jina
+        const embedding = await embeddings.embedQuery(query);
+        
+        console.log("Generated embedding for query:", query);
+        
+        const { data: documents, error } = await supabase.rpc('match_items', {
+            query_embedding: embedding, // Pass the embedding you want to compare
+            match_threshold: 0.35, // Choose an appropriate threshold for your data
+            match_count: 10, // Choose the number of matches
+        });
+        
+        if (error) {
+            console.error("Error matching items:", error);
+            throw error;
         }
-        else {
-            reject(new Error('No documents found'));
-        }
-    });
-
+        
+        console.log(`Successfully got matches for: "${query}"`);
+        return documents || [];
+    } catch (error) {
+        console.error("Error in queryEmbeddingAction:", error);
+        return [];
+    }
 }
-console.log('Query embedding generation complete.');
