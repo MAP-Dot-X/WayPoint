@@ -19,6 +19,7 @@ import TransportationsSidebar from "./sidebars/TransportationsSidebar";
 import SidebarTemplate from "./SidebarTemplate";
 import DiningSidebar from "./sidebars/DiningSidebar";
 import AcademicSidebar from "./sidebars/AcademicSidebar";
+import ResidentialSidebar from "./sidebars/ResidentiallSidebar";
 
 interface NavItemProps {
 	icon: React.ReactNode;
@@ -63,6 +64,8 @@ export default function Sidebar({ onSelectBuilding }: SidebarProps) {
 				return <DiningSidebar />;
 			case "Academic":
 				return <AcademicSidebar onSelectBuilding={onSelectBuilding} />;
+			case "Residential":
+				return <ResidentialSidebar onSelectBuilding={onSelectBuilding} />;
 			default:
 				return null;
 		}
