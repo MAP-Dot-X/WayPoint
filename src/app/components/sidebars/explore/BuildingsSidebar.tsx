@@ -1,40 +1,45 @@
 "use client";
 import React from "react";
-import { BusFront, Bike, LockKeyhole, ParkingCircle } from "lucide-react";
-import { useSidebar } from "../../context/SidebarContext";
+import {
+	GraduationCap,
+	Home,
+	BookOpen,
+	Users,
+} from "lucide-react";
+import { useSidebar } from "../../../context/SidebarContext";
 
-export default function TransportationsSidebar() {
+export default function BuildingsSidebar() {
 	const { openSidebar } = useSidebar();
 
 	return (
 		<ul>
 			<li
-				onClick={() => openSidebar("Bus")}
+				onClick={() => openSidebar("Academic")}
 				className="flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-blue-100 hover:text-blue-800 transition"
 			>
-				<BusFront size={20} />
-				Bus
+				<GraduationCap size={20} />
+				Academic
 			</li>
 			<li
-				onClick={() => openSidebar("BikeStations")}
+				onClick={() => openSidebar("Residential")}
 				className="flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-blue-100 hover:text-blue-800 transition"
 			>
-				<Bike size={20} />
-				Bike Stations
+				<Home size={20} />
+				Residential
 			</li>
 			<li
-				onClick={() => openSidebar("BikeRacks")}
+				onClick={() => openSidebar("Library")}
 				className="flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-blue-100 hover:text-blue-800 transition"
 			>
-				<LockKeyhole size={20} />
-				Bike Racks
+				<BookOpen size={20} />
+				Library
 			</li>
 			<li
-				onClick={() => openSidebar("Parkings")}
+				onClick={() => openSidebar("Social")}
 				className="flex items-center gap-3 px-4 py-2 cursor-pointer hover:bg-blue-100 hover:text-blue-800 transition"
 			>
-				<ParkingCircle size={20} />
-				Parkings
+				<Users size={20} />
+				Social
 			</li>
 		</ul>
 	);

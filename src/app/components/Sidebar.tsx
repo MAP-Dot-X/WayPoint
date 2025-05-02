@@ -14,12 +14,12 @@ import ExploreSidebar from "./sidebars/ExploreSidebar";
 import ReportSidebar from "./sidebars/ReportSidebar";
 import RecentSidebar from "./sidebars/RecentSidebar";
 import EventSidebar from "./sidebars/EventSidebar";
-import BuildingsSidebar from "./sidebars/BuildingsSidebar";
-import TransportationsSidebar from "./sidebars/TransportationsSidebar";
+import BuildingsSidebar from "./sidebars/explore/BuildingsSidebar";
+import TransportationsSidebar from "./sidebars/explore/TransportationsSidebar";
 import SidebarTemplate from "./SidebarTemplate";
-import DiningSidebar from "./sidebars/DiningSidebar";
-import AcademicSidebar from "./sidebars/AcademicSidebar";
-import ResidentialSidebar from "./sidebars/ResidentiallSidebar";
+import DiningSidebar from "./sidebars/explore/DiningSidebar";
+import AcademicSidebar from "./sidebars/explore/building/AcademicSidebar";
+import ResidentialSidebar from "./sidebars/explore/building/ResidentialSidebar";
 
 interface NavItemProps {
 	icon: React.ReactNode;
