@@ -30,8 +30,14 @@ export default function LocationSidebar() {
     }, [selectedLocation])
     
     return (
-        <div className={`absolute top-0 right-0 h-full w-100 bg-white text-black shadow-lg z-1000
-        ${isOpen ? "translate-x-0" : "translate-x-full"} duration-200`}>
+<div
+  className={`
+    absolute top-0 right-0 h-full max-w-[400px] w-full
+    ${isOpen ? "bg-white shadow-lg text-black translate-x-0" : "pointer-events-none translate-x-full"}
+    transition-transform duration-200 z-[1000]
+  `}
+>
+
             {locationData && !loadingLocation && (
                 <div className="p-4">
                     <button onClick={() => setIsOpen(false)} className="text-gray-600 hover:text-gray-800">
